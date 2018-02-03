@@ -9,7 +9,8 @@
 %  of ROS-host or its name,while the port of the ROS should also be
 %  known,in which case its IP address is 192.168.199.178,the port is
 %  11311,while its name is kp-Q170-4S.
-rosinit('http://192.168.199.178:11311','NodeHost','192.168.199.174')
+rosinit('http://192.168.199.178:11311','NodeHost','192.168.199.174','NodeName','/MATLAB_node')
+
 %-----------------------------------------------------------------------%
 
 %% building some useful rosclient for the provided rosservice
