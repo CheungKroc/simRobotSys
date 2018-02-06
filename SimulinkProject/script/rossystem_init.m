@@ -9,7 +9,7 @@
 %  of ROS-host or its name,while the port of the ROS should also be
 %  known,in which case its IP address is 192.168.199.178,the port is
 %  11311,while its name is kp-Q170-4S.
-rosinit('http://192.168.199.178:11311','NodeHost','192.168.199.174','NodeName','/MATLAB_node')
+rosinit('http://192.168.199.178:11311','NodeHost','192.168.199.135','NodeName','/MATLAB_node')
 
 %-----------------------------------------------------------------------%
 
@@ -28,8 +28,9 @@ rosinit('http://192.168.199.178:11311','NodeHost','192.168.199.174','NodeName','
 %% constructing the actionclient for action named /arm_controller/follow_joint_trajectory
 % It will return two object:a SimpleActionClient and a Goalmsg used for
 % conmunicating with actionserver
+global ActionClient_armController 
 [ActionClient_armController,msg_armControllerGoal]=rosactionclient('/arm_controller/follow_joint_trajectory')
-waitForServer(ActionClient_armController)
+% waitForServer(ActionClient_armController)
 
 %fill in the msg_armControllerGoal
 msg_armControllerGoal.Trajectory.JointNames = {'elbow_joint';'shoulder_lift_joint';'shoulder_pan_joint';'wrist_1_joint';'wrist_2_joint';'wrist_3_joint'};
