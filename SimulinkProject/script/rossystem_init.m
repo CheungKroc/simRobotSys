@@ -33,7 +33,7 @@ global ActionClient_armController
 % waitForServer(ActionClient_armController)
 
 %fill in the msg_armControllerGoal
-msg_armControllerGoal.Trajectory.JointNames = {'elbow_joint';'shoulder_lift_joint';'shoulder_pan_joint';'wrist_1_joint';'wrist_2_joint';'wrist_3_joint'};
+msg_armControllerGoal.Trajectory.JointNames = {'shoulder_pan_joint';'shoulder_lift_joint';'elbow_joint';'wrist_1_joint';'wrist_2_joint';'wrist_3_joint'};
 msg_armControllerGoal.Trajectory.Header.FrameId='/world';
 
 

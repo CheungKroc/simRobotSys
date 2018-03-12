@@ -4,4 +4,4 @@
 %the data fork from the ROS-based simulation robot
 
 load('D:\Program Files\MATLAB\MATLAB user files\SimulinkProj\SimulinkProject\data\Data_armCntrolFollowJointTrajGoal0.mat');
-msg_armControllerGoal.Trajectory.Points=trajectory_points
+msg_armControllerGoal.Trajectory.Points=trajectory_pointsBack

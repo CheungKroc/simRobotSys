@@ -1,7 +1,7 @@
 % script using robotics.InverseKinematics to calculate configuration fo ur5
 % created by kp 2018/2/7
 
-trajfun=@line_function1;
+trajfun=@line_function6;
 %%---------------trajectory planning-----------%
 [u,t]=ParabolicBlend(trajfun,0.5,2,50);
 timeFromStart=cumsum(t);
@@ -35,9 +35,17 @@ msgPoint.Positions(1:6,:)=configSoln(:).JointPosition;
 msgPoint.Velocities=zeros(6,1);
 msgPoint.Accelerations=zeros(6,1);
 
-msg_armControllerGoal.Trajectory.Points(1)=msgPoint;
+msgTrajectory=rosmessage('trajectory_msgs/JointTrajectory');
+% msgTrajectory.Points(pointsNum)=msgPoint;
+% cellTransforms={msgTrajectory.Points}; %convert the object arrays in message to a cell array
+msgTrajectory.Points(1,1)=msgPoint;
 
-for i=2:pointsNum-1
+position=zeros(pointsNum,6);
+
+for i=2:pointsNum
+    clear msgPoint;
+    msgPoint=rosmessage('trajectory_msgs/JointTrajectoryPoint'); %因为是Java的操作，所以要清缓存，否则会出现内存区共享导致变量提前被串改
+    
     vel=zeros(6,1);
     accel=zeros(6,1);
     guessConfig=configSoln;
@@ -49,6 +57,7 @@ for i=2:pointsNum-1
     for k=1:6
     p_s=guessConfig(k).JointPosition;
     p_e=configSoln(k).JointPosition;
+    position(i,k)=p_s;
     vel(k,1)=(p_s-p_e)/t(i);
     accel(k,1)=vel(k,1)/t(i);
     end
@@ -62,8 +71,10 @@ for i=2:pointsNum-1
     msgPoint.Accelerations(k,1)=accel(k);
     end
     
-    msg_armControllerGoal.Trajectory.Points(i,1)=msgPoint;
+     msgTrajectory.Points(i,1)=msgPoint;
     
 end
+
+msg_armControllerGoal.Trajectory.Points=msgTrajectory.Points;
 
 %---------------------------------------------- end-----%
